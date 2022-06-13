@@ -45,7 +45,12 @@ class FrameAnimationImageState extends State<FrameAnimationImage> with SingleTic
     final int maxTime = interval * imageCount;
 
     // 启动动画controller
-    _controller = new AnimationController(duration: Duration(milliseconds: maxTime), vsync: this);
+    _controller = new AnimationController(
+      duration: Duration(
+        milliseconds: maxTime,
+      ),
+      vsync: this,
+    );
     _controller.addStatusListener((AnimationStatus status) {
       if (widget.loop && status == AnimationStatus.completed) {
         _controller.forward(from: 0.0); // 完成后重新开始
@@ -58,9 +63,7 @@ class FrameAnimationImageState extends State<FrameAnimationImage> with SingleTic
 
     _animation = new Tween<double>(begin: 0, end: imageCount.toDouble()).animate(_controller)
       ..addListener(() {
-        setState(() {
-          // the state that has changed here is the animation object’s value
-        });
+        setState(() {});
       });
     if (widget.start) {
       _controller.forward();
@@ -96,7 +99,7 @@ class FrameAnimationImageState extends State<FrameAnimationImage> with SingleTic
 
     List<Widget> images = [];
 
-    if (_status == AnimationStatus.completed) {
+    if (!widget.loop && _status == AnimationStatus.completed) {
       images.add(
         Image.asset(
           widget._assetList.last,
