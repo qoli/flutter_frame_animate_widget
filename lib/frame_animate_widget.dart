@@ -77,7 +77,6 @@ class FrameAnimationImageState extends State<FrameAnimationImage> with SingleTic
 
   @override
   void didUpdateWidget(FrameAnimationImage oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     print("didUpdateWidget called");
     if (widget.start) {
