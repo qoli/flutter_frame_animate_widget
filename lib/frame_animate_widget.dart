@@ -3,13 +3,22 @@ library frame_animate_widget;
 import 'package:flutter/material.dart';
 
 class FrameAnimationImage extends StatefulWidget {
+  FrameAnimationImage(
+    Key key,
+    this._assetList, {
+    this.width,
+    this.height,
+    this.interval = 200,
+    this.start = true,
+    this.loop = false,
+  }) : super(key: key);
+
   final List<String> _assetList;
   final double width;
   final double height;
-  bool start = true;
-  int interval = 200;
-
-  FrameAnimationImage(Key key, this._assetList, {this.width, this.height, this.interval, this.start}) : super(key: key);
+  final bool start;
+  final int interval;
+  final bool loop;
 
   @override
   State<StatefulWidget> createState() {
@@ -38,9 +47,9 @@ class FrameAnimationImageState extends State<FrameAnimationImage> with SingleTic
     // 启动动画controller
     _controller = new AnimationController(duration: Duration(milliseconds: maxTime), vsync: this);
     _controller.addStatusListener((AnimationStatus status) {
-      // if (status == AnimationStatus.completed) {
-      // _controller.forward(from: 0.0); // 完成后重新开始
-      // }
+      if (widget.loop && status == AnimationStatus.completed) {
+        _controller.forward(from: 0.0); // 完成后重新开始
+      }
 
       setState(() {
         _status = status;
